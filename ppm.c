@@ -1,14 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <omp.h>
-#include <stdint.h>
-#include <math.h>
 #include "ppm.h"
 #include "scene.h"
 
-void create_vec(int j, int i, vec *vec, int width, int height, viewpoint *vp){
+void create_vec(int j, int i, vector *vec, int width, int height, vector *vp){
 	vec->x = (((vp->x)/(width-1))*i-((vp->x)/2));
 	vec->y = (((vp->y)/(height-1))*j-((vp->y)/2));
 	vec->z = vp->z;
@@ -20,20 +13,20 @@ void create_vec(int j, int i, vec *vec, int width, int height, viewpoint *vp){
 }
 
 
-float norm(vec *vec){
+float norm(vector *vec){
 	return sqrt(pow(vec->x,2)+pow(vec->y,2)+pow(vec->z,2));
 }
 
-float inner_prod(vec *vec1, vec*vec2){
+float inner_prod(vector *vec1, vector *vec2){
 	return vec1->x*vec2->x + vec1->y*vec2->y + vec1->z*vec2->z;
 }
 
 
-float ray_sphere_intersection(vec *vec, sphere *sphere){
+float ray_sphere_intersection(vector *vec, sphere *sphere){
 	float a,b,c;
 	a = inner_prod(vec, vec);
-	b = -2*inner_prod(sphere->center, vec);
-	c = inner_prod(sphere->center, sphere->center) - pow(sphere->r, 2);
+	b = -2*inner_prod(&sphere->center, vec);
+	c = inner_prod(&sphere->center, &sphere->center) - pow(sphere->r, 2);
 	if ((pow(b,2) - 4*a*c) < 0){
 		return INFINITY;
 	}
@@ -47,7 +40,7 @@ float ray_sphere_intersection(vec *vec, sphere *sphere){
 }
 
 
-void create_ppm(const char *file_name, int width, int height, viewpoint *vp, background *bg, spheres *spheres){
+void create_ppm(const char *file_name, int width, int height, vector *vp, background *bg, spheres *spheres){
 
 	char header_buffer[40];
 	int header_len = snprintf(header_buffer, sizeof(header_buffer), "P6\n%d %d\n255\n", width, height);
@@ -76,12 +69,8 @@ void create_ppm(const char *file_name, int width, int height, viewpoint *vp, bac
 #pragma omp parallel for
 	for (int j = 0; j < height; j++){
 		for (int i = 0; i < width; i++){
-			vec vec;
+			vector vec;
 			create_vec(height-1-j, i, &vec, width, height, vp);
-			
-
-
-
 
 			float min_dist = INFINITY;
 			int closest_sphere_index = 0;

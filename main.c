@@ -1,11 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <omp.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <math.h>
 #include "scene.h"
 #include "ppm.h"
 
@@ -49,18 +41,16 @@ int main(){
 	printf("%d, %d \n", width, height);
 
 
-	viewpoint vp;
+	vector vp;
 	get_viewpoint(&vp, fp);
-	printf("Il viewport ha lunghezza larghezza e distanza: %f, %f, %f \n", vp.x, vp.y, vp.z);
+
 	
 	background bg;
 	get_background(&bg, fp);
-	printf("I valori rgb del background sono : %u, %u, %u \n", bg.R, bg.G, bg.B);
+
 
 	spheres spheres;
 	get_spheres(&spheres, fp);
-	printf("La sfera numero 5 ha coordinate %f, %f, %f, raggio: %f, e valori rgb: %u, %u, %u \n",
-		spheres.sps[5].center->x, spheres.sps[5].center->y, spheres.sps[5].center->z, spheres.sps[5].r, spheres.sps[5].R, spheres.sps[5].G, spheres.sps[5].B);
 
 	create_ppm(ppm_name, width, height, &vp, &bg, &spheres);
 

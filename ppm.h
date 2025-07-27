@@ -9,10 +9,10 @@
 #include <unistd.h>
 #include "scene.h"
 
-void create_vec(int j, int i, vec *vec, int width, int height, viewpoint *vp);
-float inner_prod(vec *vec1, vec *vec2);
-float norm(vec *vec);
-float ray_sphere_intersection(vec *vec, sphere *sphere);
-void create_ppm(const char *file_name, int width, int height, viewpoint *vp, background *bg, spheres *spheres);
+void create_vec(int j, int i, vector *vec, int width, int height, vector *vp);
+float inner_prod(vector *vec1, vector *vec2);
+float norm(vector *vec);
+float ray_sphere_intersection(vector *vec, sphere *sphere);
+void create_ppm(const char *file_name, int width, int height, vector *vp, background *bg, spheres *spheres);
 
 #endif

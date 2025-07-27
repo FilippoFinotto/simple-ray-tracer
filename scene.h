@@ -7,17 +7,13 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+
 typedef struct {
         float x;
         float y;
         float z;
-}vec;
-
-typedef struct {
-	float x;
-	float y;
-	float z;
-}camera;
+}vector;
 
 typedef struct {
 	uint8_t R;
@@ -25,16 +21,8 @@ typedef struct {
 	uint8_t B;
 }background;
 
-
 typedef struct {
-	float x;
-	float y;
-	float z;
-}viewpoint;
-
-
-typedef struct {
-	vec *center;
+	vector center;
 	float r;
 	uint8_t R, G, B;
 }sphere;
@@ -44,13 +32,10 @@ typedef struct {
 	sphere *sps;
 }spheres;
 
-
-
-
-void get_viewpoint(viewpoint *vp, FILE *fp);
-void get_background(background *bg, FILE *fp);
-int get_number_of_spheres(FILE *fp);
-void get_spheres(spheres *spheres, FILE *fp);
+void get_viewpoint(vector *, FILE *);
+void get_background(background *, FILE *);
+int get_number_of_spheres(FILE *);
+void get_spheres(spheres *, FILE *);
 
 
 
